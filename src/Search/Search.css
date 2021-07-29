@@ -1,0 +1,12 @@
+.custom-btn.btn.focus,
+.custom-clear-btn.btn.focus,
+.custom-btn.btn:focus,
+.custom-clear-btn.btn:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.custom-btn {
+  height: 38px;
+  width: 38px;
+}

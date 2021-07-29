@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Search.css";
 
 const Search = () => {
   const [inputData, setInputData] = useState({ searchInput: "" });
@@ -28,7 +29,7 @@ const Search = () => {
     for (let i = 65; i < 91; i++) {
       result.push(
         <button
-          className="btn btn-info m-1"
+          className="btn btn-light m-1 custom-btn"
           type="button"
           key={i}
           onClick={onAlphabetClick}
@@ -76,7 +77,9 @@ const Search = () => {
       ) : (
         <tr>
           <td colSpan="3" className="text-center">
-            No Data Found
+            {searchInput
+              ? `No Data Found With ${searchInput}`
+              : `No Data Found With ${alphabet}`}
           </td>
         </tr>
       );
@@ -108,18 +111,20 @@ const Search = () => {
             onChange={onSearchInputChange}
             placeholder="Enter Search Term"
           />
-          <button
-            onClick={clearAll}
-            type="button"
-            className="btn btn-warning my-2"
-          >
-            Clear Search
-          </button>
         </div>
         {/* .cols-4 */}
         <div className="col-md-8">
           <label htmlFor="alphabet-search">Search By Alphabet</label>
-          <div>{prepareAlphabets()}</div>
+          <div>
+            {prepareAlphabets()}
+            <button
+              onClick={clearAll}
+              type="button"
+              className="btn text-warning text-bold my-2 custom-clear-btn"
+            >
+              Clear Search
+            </button>
+          </div>
         </div>
       </div>
       <div className="row">
