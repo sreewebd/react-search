@@ -12,7 +12,7 @@ const Search = () => {
       .then((data) => setUsers(data));
   }, []);
 
-  console.log(users);
+  //   console.log(users);
 
   const onAlphabetClick = (e) => {
     setAlphabetData({ alphabet: e.target.value });
@@ -50,20 +50,46 @@ const Search = () => {
     let result = [];
     const { searchInput } = inputData;
     const { alphabet } = alphabetData;
-    if ((users && searchInput) || (users && alphabet)) {
+    if (users && (searchInput || alphabet)) {
       result = users.filter(
         (element) =>
           element.name.charAt(0).toLowerCase() === alphabet.toLowerCase() ||
           elementContainsSearchString(searchInput, element)
       );
     } else {
+      //   result = users || [];
       result = users || [];
     }
     // result = result.map((item) => <li>{item.name}</li>);
+    result =
+      result.length > 0 ? (
+        result.map((user) => {
+          const { id, name, username } = user;
+          return (
+            <tr key={id}>
+              <td>{id}</td>
+              <td>{name}</td>
+              <td>{username}</td>
+            </tr>
+          );
+        })
+      ) : (
+        <tr>
+          <td colSpan="3" className="text-center">
+            No Data Found
+          </td>
+        </tr>
+      );
     return result;
   };
 
-  const filtered_list = filterItems(users);
+  //   const filtered_list = filterItems(users);
+
+  const clearAll = () => {
+    setInputData({ searchInput: "" });
+    document.getElementById("input-search").value = "";
+    setAlphabetData({ alphabet: "" });
+  };
 
   return (
     <>
@@ -82,6 +108,13 @@ const Search = () => {
             onChange={onSearchInputChange}
             placeholder="Enter Search Term"
           />
+          <button
+            onClick={clearAll}
+            type="button"
+            className="btn btn-warning my-2"
+          >
+            Clear Search
+          </button>
         </div>
         {/* .cols-4 */}
         <div className="col-md-8">
@@ -100,16 +133,25 @@ const Search = () => {
               </tr>
             </thead>
             <tbody>
-              {filtered_list.map((user) => {
-                const { id, name, username } = user;
-                return (
-                  <tr key={id}>
-                    <td>{id}</td>
-                    <td>{name}</td>
-                    <td>{username}</td>
-                  </tr>
-                );
-              })}
+              {filterItems(users)}
+              {/* {filtered_list.length > 0 ? (
+                filtered_list.map((user) => {
+                  const { id, name, username } = user;
+                  return (
+                    <tr key={id}>
+                      <td>{id}</td>
+                      <td>{name}</td>
+                      <td>{username}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="3" className="text-center">
+                    No Data Found
+                  </td>
+                </tr>
+              )} */}
             </tbody>
           </table>
         </div>
